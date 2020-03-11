@@ -3,18 +3,16 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Model;
-use App\Comment;
-use App\User;
+use App\ProductPromotion;
 use App\Product;
+use App\Promotion;
 use Faker\Generator as Faker;
 
-$factory->define(Comment::class, function (Faker $faker) {
-    $userID = User::all()->pluck('id');
+$factory->define(ProductPromotion::class, function (Faker $faker) {
     $productID = Product::all()->pluck('id');
+    $promotionID = Promotion::all()->pluck('id');
     return [
         'product_id' => $faker->randomElement($productID),
-        'content' => $faker->text,
-        'rating' => $faker->randomDigit,
-        'user_id' => $faker->randomElement($userID),
+        'promotion_id' => $faker->randomElement($promotionID),
     ];
 });

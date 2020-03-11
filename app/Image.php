@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    protected $fillable = ['name', 'description', 'imageable_id', 'imageable_type', 'user_id'];
+    protected $fillable = ['name', 'description', 'imageable_id', 'imageable_type'];
 
-    public function users()
+    public function imageable()
     {
-        return $this->belongsTo('App\User');
+        return $this->morphTo();
     }
 }

@@ -9,13 +9,21 @@ use App\Product;
 use Faker\Generator as Faker;
 
 $factory->define(Image::class, function (Faker $faker) {
-    $userID = User::all()->pluck('id');
-    $productID = Product::all()->pluck('id');
+    $imageable_type = $faker->randomElement(['user','product']);
+    $imageable_id = '';
+
+    if ($imageable_type == 'user') 
+    {
+        $imageable_id = User::all()->pluck('id');
+    } elseif ($imageable_type == 'product')
+    {
+        $imageable_id = Product::all()->pluck('id');
+    }
+
     return [
         'name' => $faker->name,
         'description' => $faker->text,
-        'imageable_id' => $faker->randomElement($productID),
-        'imageable_type' => $faker->randomElement(['product', 'user']),
-        'user_id' => $faker->randomElement($userID),
+        'imageable_id' => $faker->randomElement($imageable_id),
+        'imageable_type' => $imageable_type,
     ];
 });

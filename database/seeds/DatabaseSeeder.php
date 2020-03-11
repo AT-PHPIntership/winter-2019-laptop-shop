@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(OrdersTableSeeder::class);
-        $this->call(Orders_ProductsTableSeeder::class);
+        $this->call(OrdersProductsTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
         $this->call(ImagesTableSeeder::class);
-        
-
-        
+        $this->call(PromotionsTableSeeder::class);
+        $this->call(ProductsPromotionsTableSeeder::class);
+       
     }
 }

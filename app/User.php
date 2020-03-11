@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'verify_reset_password'
     ];
 
     /**
@@ -48,6 +48,6 @@ class User extends Authenticatable
 
     public function images()
     {
-        return $this->hasMany('App\Image');
+        return $this->morphMany('App\Image','imageable');
     }
 }
