@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix'=>'/admin'],function(){
+    Route::get('/', function () {
+        return view('Admin/index');
+    });
+    Route::resource('/categories', 'CategoryController');
+    Route::resource('/products', 'ProductController');
+    Route::resource('/comments', 'CommentController');
+    Route::resource('/images', 'ImageController');
+    Route::resource('/orders', 'OrderController');
+    Route::resource('/ordersproducts', 'OrderProductController');
+    Route::resource('/productspromotion', 'ProductPromotionController');
+    Route::resource('/promotions', 'PromotionController');
+    Route::resource('/users', 'UserController');
+});
