@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Image;
+use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -17,7 +19,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::orderBy('id', 'desc')->paginate(5);
-        return view('Admin.categories.index', compact('category'));
+        return view('admin.categories.index', compact('category'));
     }
 
     /**
@@ -27,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('Admin.categories.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -50,8 +52,16 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $product = $category->products()->paginate(5);
-        return view('Admin.categories.show',compact(['product','category']));
+        $product = $category->products()->paginate(5);     
+        foreach($product as $item){
+            $image = Product::find($item->id);
+            $imageable = $image->images;
+        }
+        if(!empty($item)){
+            return view('admin.categories.show',compact(['product','category','imageable']));
+        }else{
+            return view('admin.categories.show',compact(['product','category']));
+        }
     }
 
     /**
@@ -62,7 +72,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('Admin.categories.edit',compact('category'));
+        return view('admin.categories.edit',compact('category'));
     }
 
     /**

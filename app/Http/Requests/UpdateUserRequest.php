@@ -23,21 +23,16 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        if($this->password != ''){
-            return [
-                'full_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                'email' => 'required|email|unique:users,email,'.$this->user->id,
-                'address' => 'required',
-                'phone_number' => 'required|regex:/[0-9]{10}/',
-                'password' => 'min:6|max:20',
-        ];}else{
-            return [
-                'full_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                'email' => 'required|email|unique:users,email,'.$this->user->id,
-                'address' => 'required',
-                'phone_number' => 'required|regex:/[0-9]{10}/',
-            ];
+        $rule = [
+            'full_name' => 'required|regex:/^[\pL\s-]+$/u',
+            'email' => 'required|email|unique:users,email,'.$this->user->id,
+            'address' => 'required',
+            'phone_number' => 'required|regex:/[0-9]{10}/',
+        ];
+        if (!empty($this->password)) {
+            $rule['password'] = 'min:6|max:20|confirmed';
         }
+        return $rule;
     }
     public function messages()
     {
@@ -52,6 +47,7 @@ class UpdateUserRequest extends FormRequest
             'phone_number.regex' => 'Số điện thoại phải có 10 chữ số!',
             'password.min' => 'Mật khẩu ít nhất là 6 ký tự!',
             'password.max' => 'Mật khẩu tối đa là 20 ký tự!',
+            'password.confirmed' => 'Mật khẩu xác nhận không đúng!',
         ];
     }
 }

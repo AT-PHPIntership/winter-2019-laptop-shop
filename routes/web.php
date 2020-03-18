@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::group(['prefix'=>'/admin'],function(){
     Route::get('/', function () {
-        return view('Admin/index');
+        return view('admin.index');
     });
     Route::resource('/categories', 'CategoryController');
     Route::resource('/products', 'ProductController');

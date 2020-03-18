@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'address' => 'required',
             'phone_number' => 'required|regex:/[0-9]{10}/',
             'username' => 'required|unique:users,username',
-            'password' => 'required|min:6|max:20',
+            'password' => 'required|confirmed|min:6|max:20',
         ];
     }
     public function messages()
@@ -43,11 +43,12 @@ class StoreUserRequest extends FormRequest
             'address.required' => 'Bạn cần nhập địa chỉ!',
             'phone_number.required' => 'Bạn cần nhập số điện thoại!',
             'phone_number.regex' => 'Số điện thoại phải có 10 chữ số!',
-            'username.required' => 'Bạn cần nhập mật khẩu!',
-            'username.unique' => 'Tên đang nhập đã tồn tại!',
+            'username.required' => 'Bạn cần nhập tên đăng nhập!',
+            'username.unique' => 'Tên đăng nhập đã tồn tại!',
             'password.required' => 'Bạn cần nhập password',
             'password.min' => 'Mật khẩu ít nhất là 6 ký tự!',
             'password.max' => 'Mật khẩu tối đa là 20 ký tự!',
+            'password.confirmed' => 'Mật khẩu xác nhận không đúng!',
         ];
     }
 }

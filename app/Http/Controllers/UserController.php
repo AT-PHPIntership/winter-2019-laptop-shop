@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::orderBy('id', 'desc')->paginate(5);
-        return view('Admin.users.index',compact('user'));
+        return view('admin.users.index',compact('user'));
     }
 
     /**
@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('Admin.users.create');
+        return view('admin.users.create');
     }
 
     /**
@@ -41,8 +41,7 @@ class UserController extends Controller
     {
         $verifypwd = Str::random(32);
         $data = array_merge($request->all(),['verify_reset_password' => $verifypwd]);
-        $password = bcrypt('password');
-        Arr::set($data, 'password', $password);
+        $data['password'] = bcrypt('password');
         User::create($data);
         return redirect()->route('users.index')->with('success','Success!');
     }
@@ -55,7 +54,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('Admin.users.show',compact('user'));
+        $image = $user->images()->get();
+        return view('admin.users.show',compact('user','image'));
     }
 
     /**
@@ -64,9 +64,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(user $user)
+    public function edit(User $user)
     {
-        return view('Admin.users.edit',compact('user'));
+        return view('admin.users.edit',compact('user'));
     }
 
     /**
@@ -76,19 +76,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, user $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-            if($request->password != ''){
-                $password = bcrypt($request->input('password'));
+            if(!empty($request->password)){
                 $data = $request->all();
-                Arr::set($data, 'password', $password);
+                $data['password'] = bcrypt('password');
                 $user->update($data);
                 return redirect()->route('users.index')->with('success','Success!'); 
             }else{        
                 $user->update($request->except('password'));
                 return redirect()->route('users.index')->with('success','Success!'); 
-            }
-            
+            } 
     }
 
     /**
@@ -97,7 +95,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(user $user)
+    public function destroy(User $user)
     {
         $user->delete();
         return redirect()->route('users.index')->with('success','Success!');
