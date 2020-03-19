@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::group(['prefix'=>'/admin'],function(){
     Route::get('/', function () {
-        return view('admin.index');
+        return view('welcome');
     });
     Route::resource('/categories', 'CategoryController');
     Route::resource('/products', 'ProductController');
@@ -30,4 +30,11 @@ Route::group(['prefix'=>'/admin'],function(){
     Route::resource('/productspromotion', 'ProductPromotionController');
     Route::resource('/promotions', 'PromotionController');
     Route::resource('/users', 'UserController');
+   
 });
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+

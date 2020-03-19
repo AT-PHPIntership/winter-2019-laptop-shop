@@ -7,7 +7,7 @@
                 <div class="overview__inner">
                     <div class="overview-box clearfix">
                         <div class="icon">
-                            <a><i class="zmdi zmdi-account-o"></i></a>
+                            <a href="{{route('users.index')}}"><i class="zmdi zmdi-account-o"></i></a>
                         </div>
                         <div class="text">
                             <h2>10368</h2>

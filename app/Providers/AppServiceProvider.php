@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Support\Facades\View;
+use App\Image;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -32,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         //     'products' => App\Product::class,
         //     'users' => App\User::class,
         // ]);
+        $image = Image::all();
+        View::share(compact('image'));
     }
     
 }
