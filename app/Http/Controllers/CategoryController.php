@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Image;
+use App\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -14,7 +18,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $category = Category::orderBy('id', 'desc')->paginate(5);
+        return view('admin.categories.index', compact('category'));
     }
 
     /**
@@ -24,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -33,9 +38,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        //
+        Category::create($request->all());
+        return redirect()->route('categories.index')->with('success','Success!');
     }
 
     /**
@@ -46,7 +52,16 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $product = $category->products()->paginate(5);     
+        foreach($product as $item){
+            $image = Product::find($item->id);
+            $imageable = $image->images;
+        }
+        if(!empty($item)){
+            return view('admin.categories.show',compact(['product','category','imageable']));
+        }else{
+            return view('admin.categories.show',compact(['product','category']));
+        }
     }
 
     /**
@@ -57,7 +72,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit',compact('category'));
     }
 
     /**
@@ -67,9 +82,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with('success', 'Success!');
     }
 
     /**
@@ -80,6 +96,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('success','Success!');
     }
 }
